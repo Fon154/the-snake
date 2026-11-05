@@ -259,6 +259,12 @@ def main():
 
         # Проверка съеденного яблока
         if snake.get_head_position() == apple.position:
+            if snake.get_head_position in snake.positions[1:]:
+                snake.reset()
+                apple.randomize_position(snake.positions)
+                screen.fill(BOARD_BACKGROUND_COLOR)
+                continue
+
             snake.grow()
 
             if not apple.randomize_position(snake.positions):
@@ -269,6 +275,7 @@ def main():
             snake.reset()
             apple.randomize_position(snake.positions)
             screen.fill(BOARD_BACKGROUND_COLOR)
+            continue
 
         # Отрисовка
         snake.draw()
