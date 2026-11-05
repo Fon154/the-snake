@@ -258,7 +258,6 @@ def main():
             snake.grow()
 
             if not apple.randomize_position(snake.positions):
-                print('Победа! Змейка заполнила всё поле!')
                 break
 
         # Проверка столкновения змейки с собой
