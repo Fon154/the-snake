@@ -19,15 +19,23 @@ RIGHT = (1, 0)
 DIRECTION_MAP = {
     (LEFT, pg.K_UP): UP,
     (RIGHT, pg.K_UP): UP,
+    (LEFT, pg.K_w): UP,
+    (RIGHT, pg.K_w): UP,
 
     (LEFT, pg.K_DOWN): DOWN,
     (RIGHT, pg.K_DOWN): DOWN,
+    (LEFT, pg.K_s): DOWN,
+    (RIGHT, pg.K_s): DOWN,
 
     (UP, pg.K_LEFT): LEFT,
     (DOWN, pg.K_LEFT): LEFT,
+    (UP, pg.K_a): LEFT,
+    (DOWN, pg.K_a): LEFT,
 
     (UP, pg.K_RIGHT): RIGHT,
     (DOWN, pg.K_RIGHT): RIGHT,
+    (UP, pg.K_d): RIGHT,
+    (DOWN, pg.K_d): RIGHT,
 }
 
 # Цвет фона - черный:
