@@ -106,7 +106,7 @@ class Apple(GameObject):
 
     def __init__(
             self,
-            occupied_positions: list,
+            occupied_positions: list | None = None,
             position: tuple = SCREEN_CENTER,
             body_color: tuple = APPLE_COLOR
     ):
@@ -115,6 +115,10 @@ class Apple(GameObject):
             position=position,
             body_color=body_color
         )
+
+        if occupied_positions is None:
+            occupied_positions = []
+
         self.randomize_position(occupied_positions)
 
     def randomize_position(self, occupied_positions: list) -> bool:
@@ -193,13 +197,13 @@ class Snake(GameObject):
         self.draw_cell(self.get_head_position())
 
         # Затирание последнего сегмента
-        if self.last:
+        if self.last is not None:
             last_rect = pg.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def grow(self):
         """Увеличивает длину змейки на один сегмент."""
-        if self.last:
+        if self.last is not None:
             self.positions.append(self.last)
             self.last = None
 
