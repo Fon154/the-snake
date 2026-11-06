@@ -38,6 +38,13 @@ DIRECTION_MAP = {
     (DOWN, pg.K_d): RIGHT,
 }
 
+# Все ячейки
+ALL_CELLS = set(
+    (x * GRID_SIZE, y * GRID_SIZE)
+    for x in range(GRID_WIDTH)
+    for y in range(GRID_HEIGHT)
+)
+
 # Цвет фона - черный:
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
 
@@ -93,8 +100,7 @@ class GameObject:
         color=None
     ):
         """Отрисовывает одну ячейку игрового поля."""
-        if color is None:
-            color = self.body_color
+        color = color or self.body_color
 
         rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, color, rect)
@@ -116,24 +122,19 @@ class Apple(GameObject):
             body_color=body_color
         )
 
-        if occupied_positions is None:
+        if not occupied_positions:
             occupied_positions = []
 
         self.randomize_position(occupied_positions)
 
     def randomize_position(self, occupied_positions: list) -> bool:
         """Устанавливает яблоку случайную позицию на поле."""
-        free_positions = [
-            (x * GRID_SIZE, y * GRID_SIZE)
-            for x in range(GRID_WIDTH)
-            for y in range(GRID_HEIGHT)
-            if (x * GRID_SIZE, y * GRID_SIZE) not in occupied_positions
-        ]
+        free_positions = ALL_CELLS - set(occupied_positions)
 
         if not free_positions:
             return False
 
-        self.position = choice(free_positions)
+        self.position = choice(tuple(free_positions))
         return True
 
     def draw(self):
@@ -154,7 +155,7 @@ class Snake(GameObject):
             position=position,
             body_color=body_color
         )
-        self.reset()
+        self.reset(RIGHT)
 
     def get_head_position(self) -> tuple:
         """Возвращает координаты головы змейки.
@@ -207,11 +208,11 @@ class Snake(GameObject):
             self.positions.append(self.last)
             self.last = None
 
-    def reset(self):
+    def reset(self, direction=None):
         """Сбрасывает змейку в начальное состояние."""
         # Сбросить змейку в начальное состояние
         self.positions = [self.position]
-        self.direction = choice([RIGHT, LEFT, UP, DOWN])
+        self.direction = direction or choice([RIGHT, LEFT, UP, DOWN])
         self.next_direction = None
         self.last = None
 
